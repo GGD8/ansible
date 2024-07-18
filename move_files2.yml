@@ -1,0 +1,27 @@
+---
+- name: Move files from src to dest directory
+  hosts: servers
+  become: yes
+  vars:
+    src_dir: '/home/gdeng/Documents/srcFolder'
+    dest_dir: '/home/gdeng/Documents/destFolder'
+
+  tasks:
+    - name: Ensure destination directory exists
+      file:
+        path: "{{ dest_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Move files from src to dest directory
+      shell: mv {{ src_dir }}/* {{ dest_dir }}/
+      args:
+        warn: false
+
+    - name: Verify files have been moved
+      command: ls -l {{ dest_dir }}
+      register: move_result
+
+    - debug:
+        var: move_result.stdout
+
