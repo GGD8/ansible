@@ -1,0 +1,21 @@
+
+---
+- name: This playbook installs a package on remote Ubuntu desktops/servers.
+  hosts: all
+  vars:
+    package_name: ""
+  tasks:
+      - name: Ensure a package name is provided
+        fail:
+          msg: "The pacakge_name variable is required."
+          when: package_name == ""
+
+      - name: Upddate APT cache
+        apt:
+          apt_cache: yes
+
+      - name: Install a specified package
+        apt:
+          name: '{{ package_name }}'
+          state: present
+
