@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+    - name: install the openssh-server package
+      apt:
+        name: openssh-server

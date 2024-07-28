@@ -1,0 +1,21 @@
+---
+- name: Install a package on Ubuntu 22.04 desktops/servers
+  hosts: ubuntu_servers
+  become: yes
+  vars:
+    package_name: ""
+  tasks:
+    - name: Ensure a package name is provided
+      fail:
+        msg: "The package_name variable is required"
+      when: package_name == ""
+
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install the specified package
+      apt:
+        name: "{{ package_name }}"
+        state: present
+
